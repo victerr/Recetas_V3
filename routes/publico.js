@@ -12,20 +12,22 @@ app.get('/', (req, res) => {
 
 app.post('/buscar', (req, res) => {
     let busqueda = req.body.titulo;
-    lReceta.find().then(resultado => {
+    Receta.find().then(resultado => {
         if (resultado) {
             let rectetasFiltradas = resultado.filter(receta =>
                 receta.titulo == busqueda);
 
             if (rectetasFiltradas.length > 0) {
-                res.render('buscar',
+                res.render('publico_index',
                     { recetas: rectetasFiltradas });
             } else {
-                res.render('buscar',
+                res.render('publico_index',
                     { error: "No se encontraron recetas" });
             }
         }
-    })
+    }).catch(error => {
+        res.render('publico_error');
+    });
 });
 
 app.get('/receta/:id', (req, res) => {

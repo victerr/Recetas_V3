@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 
 // Enrutadores
-const ingredientes = require(__dirname + '/routes/ingredientes');
+//const ingredientes = require(__dirname + '/routes/ingredientes');
 const recetas = require(__dirname + '/routes/recetas');
 
 
@@ -19,7 +19,7 @@ let app = express();
 
 // Carga de middleware y enrutadores
 app.use(bodyParser.json());
-app.use('/ingredientes', ingredientes);
+//app.use('/ingredientes', ingredientes);
 app.use('/recetas', recetas);
 
 
