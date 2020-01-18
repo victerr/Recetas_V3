@@ -1,2 +1,42 @@
-{% block contenido %}publico_receta
+{% extends "publico_base.njk" %}
+
+{% block contenido %}
+    <br><br><br><br>
+    <div class="card mb-10">
+        <div class="card-header text-white bg-info">
+            <h4>{{ receta.titulo }}</h4>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="https://content-recetas.lecturas.com/medio/2018/07/19/paso-a-paso-para-realizar-pollo-asado-con-mandarinas-resultado-final_28e12c68_800x800.jpg" class="card-img" alt="Imagen">
+                <div class="card-footer text-muted">
+                    <h6 class="card-title font-italic">
+                    {% if receta.comensales == 1 %}
+                        Para {{ receta.comensales }} comensal</h6>
+                    {% else %}
+                        Para {{ receta.comensales }} comensales</h6>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <p class="card-text">
+                        <h5>Descripción:</h5> {{ receta.descripcion }}
+                    </p>
+                    <p class="card-text">
+                        <h6>Preparación: {{ receta.preparacion }} min. Cocción: {{ receta.coccion }} min.</h6>
+                    </p>
+
+                    <div class="card-header text-white bg-info">Ingredientes</div>
+                    <ul class="list-group list-group-flush">
+                    {% for elemento in receta.elementos %}
+
+                        <li class="list-group-item"><strong>{{ elemento.ingrediente }}:</strong> {{ elemento.cantidad }} {{ elemento.unidad }}</li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

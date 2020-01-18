@@ -4,19 +4,20 @@ let Receta = require(__dirname + '/../models/receta.js');
 let router = express.Router();
 
 router.get('/', (req, res) => {
-    Receta.find().populate('elementos.ingrediente').then(resultado => {
+    Receta.find().then(resultado => {
         if (resultado.length !== 0) {
             res.render('admin_recetas',
                 { recetas: resultado });
         }
-        /* else {
+         else {
             res.render('admin_recetas',
-            { error: "No se encontraron recetas" });
-        } */
+            { error: "No hay recetas en la base de datos." });
+        } 
     }).catch(error => {
         res.render('admin_error');
     });
 });
+
 
 /* router.get('/:id', (req, res) => {
     Receta.findById(req.params['id']).then(resultado => {
@@ -32,10 +33,11 @@ router.get('/', (req, res) => {
 }); */
 
 router.get('/nueva', (req, res) => {
-    res.render('admin_recetas_form').catch(error => {
-        res.render('admin_error');
-    });
+    res.render('admin_recetas_form')/* .catch(error => {
+        res.render('admin_error'); 
+    });*/
 });
+
 
 router.get('/editar/:id', (req, res) => {
     Receta.findById(req.params['id']).then(resultado => {
@@ -61,11 +63,15 @@ router.post('/', (req, res) => {
         coccion: req.body.coccion,
         descripcion: req.body.descripcion,
         imagen: req.body.imagen,
-        elementos: req.body.elementos
+        elementos: {
+            ingrediente: req.body.ingrediente,
+            cantidad: req.body.cantidad,
+            unidad: req.body.unidad
+        }
     });
     nuevaReceta.save().then(resultado => {
         if (resultado)
-            res.redirect(req.url);
+            res.redirect(req.baseUrl);
         /* else
             res.status(500).send({ ok: false, error: "Error insertando receta" }); */
     }).catch(error => {

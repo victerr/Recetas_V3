@@ -1,1 +1,95 @@
-{% extends admin_base %}
+{% extends "admin_base.njk" %}
+
+{% block contenido %}
+
+    <br><br><br><br>
+    <form action="/recetas" method="POST">
+        <div class="card mb-10">
+            <div class="card-header text-white bg-info">
+                <h4><input type="text" name="titulo" {% if receta %} value= {{ receta.titulo }} {% endif %}></h4>
+            </div>
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="https://content-recetas.lecturas.com/medio/2018/07/19/paso-a-paso-para-realizar-pollo-asado-con-mandarinas-resultado-final_28e12c68_800x800.jpg" class="card-img" alt="Imagen">
+                    <div class="card-footer text-muted">
+                        <h6 class="card-title font-italic">
+                            {% if receta.comensales == 1 %}
+                        Para <input type="text" name="comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensal</h6>
+                        {% else %}
+                        Para <input type="text" name="comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensales</h6>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <p class="card-text">
+                        <h5>Descripción:</h5>
+                        <textarea style="min-width: 100%" name="descripcion">{% if receta %} {{ receta.descripcion }} {% endif %}</textarea>
+                    </p>
+                    <p class="card-text">
+                        <h6>Preparación: <input type="text" name="preparacion" {% if receta %} value= {{ receta.preparacion }} {% endif %}> min. 
+                        Cocción: <input type="text" name="coccion" {% if receta %} value= {{ receta.coccion }} {% endif %}> min.</h6>
+                    </p>
+
+                    <div class="card-header text-white bg-info">Ingredientes</div>
+                    <ul class="list-group list-group-flush" id="elementos">
+
+                        {% if receta %}
+                            {% for elemento in receta.elementos %}
+
+                                <li class="list-group-item" name="elementos">
+                                    <strong><input type="text" name="ingrediente" {% if receta %} value= {{ elemento.ingrediente }} {% endif %}>:</strong>
+                                    <input type="text" name="cantidad" {% if receta %} value= {{ elemento.cantidad }} {% endif %}>
+                                    <input type="text" name"unidad" {% if receta %} value= {{ elemento.unidad }} {% endif %}>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="list-group-item" name="elementos">
+                                <strong><input type="text" name="ingrediente">:</strong>
+                                <input type="text" name="cantidad">
+                                <input type="text" name"unidad">
+                            </li>
+                        </ul>
+                    {% endif %}
+
+                    <button type="button" class="btn btn-primary col-12" id="addElemento">Añadir ingrediente</button>
+                </div>
+                <input type="submit" class="btn btn-primary col-12" value="Guardar receta">
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    var boton = document.getElementById('addElemento');
+    var elementos = document.getElementById('elementos');
+
+    boton.addEventListener('click', () => {
+        var li = document.createElement('li');
+        li.setAttribute('class', 'list-group-item');
+        li.setAttribute('name', 'elementos');
+
+        var strong = document.createElement('strong');
+
+        var input1 = document.createElement('input');
+        input1.setAttribute('type', 'text');
+        input1.setAttribute('name', 'ingrediente');
+
+        var input2 = document.createElement('input');
+        input2.setAttribute('type', 'text');
+        input2.setAttribute('name', 'cantidad');
+
+        var input3 = document.createElement('input');
+        input3.setAttribute('type', 'text');
+        input3.setAttribute('name', 'unidad');
+
+        strong.appendChild(input1);
+        strong.innerHTML += ': ';
+
+        li.appendChild(strong);
+        li.appendChild(input2);
+        li.appendChild(input3);
+
+        elementos.appendChild(li);
+    });
+</script>
+{% endblock %}

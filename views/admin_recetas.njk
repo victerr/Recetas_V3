@@ -1,4 +1,29 @@
-{% extends "base.njk" %}
+{% extends "admin_base.njk" %}
 
-{% block contenido %}admin_recetas
+{% block contenido %}
+
+    <div class="jumbotron">
+
+        <h1 class="display-4">Listado de recetas</h1>
+        <table width="100%">
+            {% for receta in recetas %}
+                <tr>
+                    <td>{{ receta.titulo }}</td>
+                    <td>
+                        <a class="btn btn-success" href="/receta/{{ receta.id }}">Ver ficha</a>
+                        <form style="display:inline" action="/receta/{{ receta.id }}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <button type="submit" class="btn btn-danger">Borrar</button>
+                        </form>
+                        <a class="btn btn-primary" href="/recetas/editar/{{ receta.id }}">Editar</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>
+                        {{ error }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

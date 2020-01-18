@@ -15,7 +15,7 @@ router.post('/buscar', (req, res) => {
     Receta.find().then(resultado => {
         if (resultado) {
             let rectetasFiltradas = resultado.filter(receta =>
-                receta.titulo == busqueda);
+                receta.titulo.toLowerCase().includes(busqueda) && busqueda.length>0);
 
             if (rectetasFiltradas.length > 0) {
                 res.render('publico_index',
@@ -31,9 +31,9 @@ router.post('/buscar', (req, res) => {
 });
 
 router.get('/receta/:id', (req, res) => {
-    Receta.findById(req.params['id']).then(resultado => {
-        if (resultado) {
-            res.render('publico_receta', { receta: resultado });
+    Receta.findById(req.params['id']).then(receta => {
+        if (receta) {
+            res.render('publico_receta', { receta: receta });
         }
         else {
             res.render('buscar',
