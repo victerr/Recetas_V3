@@ -4,13 +4,13 @@ const jwt = require('jsonwebtoken');
 let Receta = require(__dirname + '/../models/receta.js');
 let router = express.Router();
 
-app.get('/', (req, res) => {
-    res.render('publico_index').catch(error => {
+router.get('/', (req, res) => {
+    res.render('publico_index');/* .catch(error => {
         res.render('publico_error');
-    });
+    }); */
 });
 
-app.post('/buscar', (req, res) => {
+router.post('/buscar', (req, res) => {
     let busqueda = req.body.titulo;
     Receta.find().then(resultado => {
         if (resultado) {
@@ -30,7 +30,7 @@ app.post('/buscar', (req, res) => {
     });
 });
 
-app.get('/receta/:id', (req, res) => {
+router.get('/receta/:id', (req, res) => {
     Receta.findById(req.params['id']).then(resultado => {
         if (resultado) {
             res.render('publico_receta', { receta: resultado });
@@ -43,3 +43,5 @@ app.get('/receta/:id', (req, res) => {
         res.render('publico_error');
     });
 });
+
+module.exports = router;
