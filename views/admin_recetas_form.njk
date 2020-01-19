@@ -3,10 +3,15 @@
 {% block contenido %}
 
     <br><br><br><br>
+    {% if receta %}
+        <form style="display:inline" action="/recetas/{{ receta.id }}" method="post">
+        <input type="hidden" action="/recetas/{{ receta.id }}" name="_method" value="put"/>
+    {% else %}
     <form action="/recetas" method="POST">
+    {% endif %}
         <div class="card mb-10">
             <div class="card-header text-white bg-info">
-                <h4><input type="text" name="titulo" {% if receta %} value= {{ receta.titulo }} {% endif %}></h4>
+                <h4><input type="text" name="titulo" placeholder="Nombre de la receta" {% if receta %} value= {{ receta.titulo }} {% endif %}></h4>
             </div>
             <div class="row no-gutters">
                 <div class="col-md-4">
@@ -14,9 +19,9 @@
                     <div class="card-footer text-muted">
                         <h6 class="card-title font-italic">
                             {% if receta.comensales == 1 %}
-                        Para <input type="text" name="comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensal</h6>
+                        Para <input type="text" name="comensales" placeholder="Número de comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensal</h6>
                         {% else %}
-                        Para <input type="text" name="comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensales</h6>
+                        Para <input type="text" name="comensales" placeholder="Número de comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensales</h6>
                     {% endif %}
                 </div>
             </div>
@@ -24,11 +29,11 @@
                 <div class="card-body">
                     <p class="card-text">
                         <h5>Descripción:</h5>
-                        <textarea style="min-width: 100%" name="descripcion">{% if receta %} {{ receta.descripcion }} {% endif %}</textarea>
+                        <textarea style="min-width: 100%" name="descripcion" placeholder="Descripción de la receta">{% if receta %} {{ receta.descripcion }} {% endif %}</textarea>
                     </p>
                     <p class="card-text">
-                        <h6>Preparación: <input type="text" name="preparacion" {% if receta %} value= {{ receta.preparacion }} {% endif %}> min. 
-                        Cocción: <input type="text" name="coccion" {% if receta %} value= {{ receta.coccion }} {% endif %}> min.</h6>
+                        <h6>Preparación: <input type="text" name="preparacion" placeholder="Tiempo de preparación" {% if receta %} value= {{ receta.preparacion }} {% endif %}> min. 
+                        Cocción: <input type="text" name="coccion" placeholder="Tiempo de cocción" {% if receta %} value= {{ receta.coccion }} {% endif %}> min.</h6>
                     </p>
 
                     <div class="card-header text-white bg-info">Ingredientes</div>
@@ -45,16 +50,20 @@
                             {% endfor %}
                         {% else %}
                             <li class="list-group-item" name="elementos">
-                                <strong><input type="text" name="ingrediente">:</strong>
-                                <input type="text" name="cantidad">
-                                <input type="text" name"unidad">
+                                <strong><input type="text" name="ingrediente" placeholder="Ingrediente">:</strong>
+                                <input type="text" name="cantidad" placeholder="Cantidad">
+                                <input type="text" name"unidad" placeholder="Unidad">
                             </li>
                         </ul>
-                    {% endif %}
+                        {% endif %}
 
                     <button type="button" class="btn btn-primary col-12" id="addElemento">Añadir ingrediente</button>
                 </div>
-                <input type="submit" class="btn btn-primary col-12" value="Guardar receta">
+                {% if receta %}
+                        <button type="submit" class="btn btn-primary col-12">Modificar receta</button>
+                {% else %}
+                    <input type="submit" class="btn btn-primary col-12" value="Guardar receta">
+                {% endif %}
             </div>
         </div>
     </div>
@@ -73,14 +82,17 @@
         var input1 = document.createElement('input');
         input1.setAttribute('type', 'text');
         input1.setAttribute('name', 'ingrediente');
+        input1.setAttribute('placeholder', 'Ingrediente');
 
         var input2 = document.createElement('input');
         input2.setAttribute('type', 'text');
         input2.setAttribute('name', 'cantidad');
+        input2.setAttribute('placeholder', 'Cantidad');
 
         var input3 = document.createElement('input');
         input3.setAttribute('type', 'text');
         input3.setAttribute('name', 'unidad');
+        input3.setAttribute('placeholder', 'Unidad');
 
         strong.appendChild(input1);
         strong.innerHTML += ': ';

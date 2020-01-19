@@ -63,12 +63,13 @@ router.post('/', (req, res) => {
         coccion: req.body.coccion,
         descripcion: req.body.descripcion,
         imagen: req.body.imagen,
-        elementos: {
+        elementos: req.body.elementos/* : {
             ingrediente: req.body.ingrediente,
             cantidad: req.body.cantidad,
             unidad: req.body.unidad
-        }
+        } */
     });
+
     nuevaReceta.save().then(resultado => {
         if (resultado)
             res.redirect(req.baseUrl);
@@ -128,7 +129,7 @@ router.put('/:id', (req, res) => {
 
     ).then(resultado => {
         if (resultado)
-            res.redirect(req.url);
+            res.redirect(req.baseUrl);
         /* else
             res.status(500).send({ ok: false, error: "No se ha encontrado la receta." }); */
     }).catch(error => {
