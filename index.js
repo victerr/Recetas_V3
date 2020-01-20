@@ -13,11 +13,11 @@ const methodOverride = require('method-override');
 //const ingredientes = require(__dirname + '/routes/ingredientes');
 const recetas = require(__dirname + '/routes/recetas');
 const publico = require(__dirname + '/routes/publico');
-//falta el de publico
+const auth = require(__dirname + '/routes/auth');
 
 
 // Conexión con la BD
-mongoose.connect('mongodb://localhost:27017/recetas',
+mongoose.connect('mongodb://localhost:27017/recetasV3',
     { useNewUrlParser: true });
 let app = express();
 
@@ -58,6 +58,7 @@ app.use(methodOverride(function (req, res) {
 //app.use('/ingredientes', ingredientes);
 app.use('/recetas', recetas);
 app.use('/', publico);
+app.use('/auth', auth);
 
 // Puesta en marcha del servidor
 app.listen(8080);
