@@ -4,10 +4,10 @@
 
     <br><br><br><br>
     {% if receta %}
-        <form style="display:inline" action="/recetas/{{ receta.id }}" method="post">
-        <input type="hidden" action="/recetas/{{ receta.id }}" name="_method" value="put"/>
+         <form action="/recetas/{{ receta.id }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_method" value="put"/>    
     {% else %}
-    <form action="/recetas" method="POST">
+    <form action="/recetas" method="POST" enctype="multipart/form-data">
     {% endif %}
         <div class="card mb-10">
             <div class="card-header text-white bg-info">
@@ -15,8 +15,8 @@
             </div>
             <div class="row no-gutters">
                 <div class="col-md-4">
-                    <img src="https://content-recetas.lecturas.com/medio/2018/07/19/paso-a-paso-para-realizar-pollo-asado-con-mandarinas-resultado-final_28e12c68_800x800.jpg" class="card-img" alt="Imagen">
-                    <div class="card-footer text-muted">
+                        <input type="file" class="form-control" name="imagen" placeholder="Imagen de la receta." formenctype="multipart/form-data"/>
+                     <div class="card-footer text-muted">
                         <h6 class="card-title font-italic">
                             {% if receta.comensales == 1 %}
                         Para <input type="text" name="comensales" placeholder="Número de comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensal</h6>
@@ -45,14 +45,14 @@
                                 <li class="list-group-item" name="elementos">
                                     <strong><input type="text" name="ingrediente" {% if receta %} value= {{ elemento.ingrediente }} {% endif %}>:</strong>
                                     <input type="text" name="cantidad" {% if receta %} value= {{ elemento.cantidad }} {% endif %}>
-                                    <input type="text" name"unidad" {% if receta %} value= {{ elemento.unidad }} {% endif %}>
+                                    <input type="text" name="unidad" {% if receta %} value= {{ elemento.unidad }} {% endif %}>
                                 </li>
                             {% endfor %}
                         {% else %}
                             <li class="list-group-item" name="elementos">
                                 <strong><input type="text" name="ingrediente" placeholder="Ingrediente">:</strong>
                                 <input type="text" name="cantidad" placeholder="Cantidad">
-                                <input type="text" name"unidad" placeholder="Unidad">
+                                <input type="text" name="unidad" placeholder="Unidad">
                             </li>
                         </ul>
                         {% endif %}

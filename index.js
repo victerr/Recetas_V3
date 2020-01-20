@@ -14,7 +14,7 @@ const methodOverride = require('method-override');
 const recetas = require(__dirname + '/routes/recetas');
 const publico = require(__dirname + '/routes/publico');
 const auth = require(__dirname + '/routes/auth');
-
+let usuarios = require(__dirname + '/utils/generar_usuarios.js');
 
 // Conexión con la BD
 mongoose.connect('mongodb://localhost:27017/recetasV3',
