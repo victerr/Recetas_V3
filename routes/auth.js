@@ -10,22 +10,24 @@ router.get('/login', (req, res) => {
 
 
 router.post('/login', (req, res) => {
-    let usuarios = Usuario.find().then(usuarios => {
-        usuarios = usuarios
-    })
+    Usuario.find().then(usuarios => {
+    
     let existeUsuario = usuarios.filter(usuario =>
-        usuario.usuario == login && usuario.password == password);
+        usuario.login == req.body.login && usuario.password == req.body.password);
 
     if (existeUsuario.length > 0) {
-        req.session.usuario = existeUsuario[0].usuario;
-        res.render(req.url);
+        req.session.usuario = existeUsuario[0].login;
+        res.redirect('/recetas');
     } else {
         res.render('auth_login',
             { error: "Usuario incorrecto" });
     }
+});
 })
 
 router.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
 })
+
+module.exports = router;

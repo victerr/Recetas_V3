@@ -3,43 +3,32 @@ const express = require('express');
 let Receta = require(__dirname + '/../models/receta.js');
 let router = express.Router();
 
-router.get('/', (req, res) => {
+const autenticacion = require(__dirname + '/../utils/auth.js');
+
+router.get('/', autenticacion, (req, res) => {
     Receta.find().then(resultado => {
         if (resultado.length !== 0) {
             res.render('admin_recetas',
                 { recetas: resultado });
         }
-         else {
+        else {
             res.render('admin_recetas',
-            { error: "No hay recetas en la base de datos." });
-        } 
+                { error: "No hay recetas en la base de datos." });
+        }
     }).catch(error => {
         res.render('admin_error');
     });
 });
 
 
-/* router.get('/:id', (req, res) => {
-    Receta.findById(req.params['id']).then(resultado => {
-        if (resultado) {
-            res.status(200).send({ ok: true, resultado: resultado });
-        }
-        else {
-            res.status(500).send({ ok: false, error: 'Receta no encontrada' });
-        }
-    }).catch(error => {
-        res.status(400).send({ ok: false, error: "Error obteniendo la receta." + req.params['id'] })
-    });
-}); */
-
-router.get('/nueva', (req, res) => {
+router.get('/nueva', autenticacion, (req, res) => {
     res.render('admin_recetas_form')/* .catch(error => {
         res.render('admin_error'); 
     });*/
 });
 
 
-router.get('/editar/:id', (req, res) => {
+router.get('/editar/:id', autenticacion, (req, res) => {
     Receta.findById(req.params['id']).then(resultado => {
         if (resultado) {
             res.render('admin_recetas_form', { receta: resultado });
@@ -55,7 +44,7 @@ router.get('/editar/:id', (req, res) => {
 /**
  * Falta multer para las imágenes
  */
-router.post('/', (req, res) => {
+router.post('/', autenticacion, (req, res) => {
     let nuevaReceta = new Receta({
         titulo: req.body.titulo,
         comensales: req.body.comensales,
@@ -63,11 +52,12 @@ router.post('/', (req, res) => {
         coccion: req.body.coccion,
         descripcion: req.body.descripcion,
         imagen: req.body.imagen,
-        elementos: {
+        elementos: req.body.elementos
+        /* elementos: {
             ingrediente: req.body.ingrediente,
             cantidad: req.body.cantidad,
             unidad: req.body.unidad
-        }
+        } */
     });
     nuevaReceta.save().then(resultado => {
         if (resultado)
@@ -83,7 +73,7 @@ router.post('/', (req, res) => {
 /**
  * Falta multer para las imágenes
  */
-router.put('/:id', (req, res) => {
+router.put('/:id', autenticacion, (req, res) => {
     /* let recetaActualizada;
     if (req.body.imagen !== null) {
         nuevaReceta = {
@@ -153,7 +143,7 @@ router.put('/:id', (req, res) => {
     });;
 }); */
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', autenticacion, (req, res) => {
     Receta.findByIdAndRemove(req.params['id'])
         .then(resultado => {
             if (resultado)
