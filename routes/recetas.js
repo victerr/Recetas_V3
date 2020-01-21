@@ -67,21 +67,21 @@ router.post('/', upload.single('imagen'), (req, res) => {
         }
     };
     if(req.body.ingrediente2 && req.body.cantidad2 && req.body.unidad2){
-        elemento1 = {
+        elemento2 = {
             ingrediente: req.body.ingrediente2,
             cantidad: req.body.cantidad2,
             unidad: req.body.unidad2
         }
     };
     if(req.body.ingrediente3 && req.body.cantidad3 && req.body.unidad3){
-        elemento1 = {
+        elemento3 = {
             ingrediente: req.body.ingrediente3,
             cantidad: req.body.cantidad3,
             unidad: req.body.unidad3
         }
     };
     if(req.body.ingrediente4 && req.body.cantidad4 && req.body.unidad4){
-        elemento1 = {
+        elemento4 = {
             ingrediente: req.body.ingrediente4,
             cantidad: req.body.cantidad4,
             unidad: req.body.unidad4
@@ -98,15 +98,6 @@ router.post('/', upload.single('imagen'), (req, res) => {
         elementos: [ elemento1, elemento2, elemento3, elemento4
         ]
     });
-
-/*     let nuevoElemento = {
-        ingrediente: 'arwerer',
-        cantidad: "drewrerwer",
-        unidad: "ewrwerewrew"
-    }
-
-    nuevaReceta.elementos[4] = nuevoElemento; */
-    
 
     nuevaReceta.save().then(resultado => {
         if (resultado)
