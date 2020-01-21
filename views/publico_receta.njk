@@ -30,8 +30,9 @@
                     <div class="card-header text-white bg-info">Ingredientes</div>
                     <ul class="list-group list-group-flush">
                     {% for elemento in receta.elementos %}
-
-                        <li class="list-group-item"><strong>{{ elemento.ingrediente }}:</strong> {{ elemento.cantidad }} {{ elemento.unidad }}</li>
+                        {% if elemento.ingrediente %}
+                            <li class="list-group-item"><strong>{{ elemento.ingrediente }}:</strong> {{ elemento.cantidad }} {{ elemento.unidad }}</li>
+                        {% endif %}
                     {% endfor %}
                     </ul>
                 </div>

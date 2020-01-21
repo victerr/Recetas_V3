@@ -23,10 +23,10 @@ router.get('/', autenticacion, (req, res) => {
             res.render('admin_recetas',
                 { recetas: resultado });
         }
-         else {
+        else {
             res.render('admin_recetas',
-            { error: "No hay recetas en la base de datos." });
-        } 
+                { error: "No hay recetas en la base de datos." });
+        }
     }).catch(error => {
         res.render('admin_error');
     });
@@ -40,7 +40,7 @@ router.get('/nueva', autenticacion, (req, res) => {
 });
 
 
-router.get('/editar/:id',  autenticacion, (req, res) => {
+router.get('/editar/:id', autenticacion, (req, res) => {
     Receta.findById(req.params['id']).then(resultado => {
         if (resultado) {
             res.render('admin_recetas_form', { receta: resultado });
@@ -57,6 +57,37 @@ router.get('/editar/:id',  autenticacion, (req, res) => {
  * Falta multer para las imágenes
  */
 router.post('/', upload.single('imagen'), (req, res) => {
+    let elemento1, elemento2, elemento3, elemento4 = null;
+
+    if(req.body.ingrediente1 && req.body.cantidad1 && req.body.unidad1){
+        elemento1 = {
+            ingrediente: req.body.ingrediente1,
+            cantidad: req.body.cantidad1,
+            unidad: req.body.unidad1
+        }
+    };
+    if(req.body.ingrediente2 && req.body.cantidad2 && req.body.unidad2){
+        elemento1 = {
+            ingrediente: req.body.ingrediente2,
+            cantidad: req.body.cantidad2,
+            unidad: req.body.unidad2
+        }
+    };
+    if(req.body.ingrediente3 && req.body.cantidad3 && req.body.unidad3){
+        elemento1 = {
+            ingrediente: req.body.ingrediente3,
+            cantidad: req.body.cantidad3,
+            unidad: req.body.unidad3
+        }
+    };
+    if(req.body.ingrediente4 && req.body.cantidad4 && req.body.unidad4){
+        elemento1 = {
+            ingrediente: req.body.ingrediente4,
+            cantidad: req.body.cantidad4,
+            unidad: req.body.unidad4
+        }
+    };
+
     let nuevaReceta = new Receta({
         titulo: req.body.titulo,
         comensales: req.body.comensales,
@@ -64,12 +95,18 @@ router.post('/', upload.single('imagen'), (req, res) => {
         coccion: req.body.coccion,
         descripcion: req.body.descripcion,
         imagen: req.file.filename,
-        elementos: req.body.elementos/* : {
-            ingrediente: req.body.ingrediente,
-            cantidad: req.body.cantidad,
-            unidad: req.body.unidad
-        } */
+        elementos: [ elemento1, elemento2, elemento3, elemento4
+        ]
     });
+
+/*     let nuevoElemento = {
+        ingrediente: 'arwerer',
+        cantidad: "drewrerwer",
+        unidad: "ewrwerewrew"
+    }
+
+    nuevaReceta.elementos[4] = nuevoElemento; */
+    
 
     nuevaReceta.save().then(resultado => {
         if (resultado)
@@ -86,68 +123,38 @@ router.post('/', upload.single('imagen'), (req, res) => {
  * Falta multer para las imágenes
  */
 router.put('/:id', upload.single('imagen'), (req, res) => {
-    let recetaActualizada;
 
-   /*  if (req.file.filename != null) { */
-        nuevaReceta = {
+    Receta.findByIdAndUpdate(req.params['id'], {
+        $set: {
             titulo: req.body.titulo,
             comensales: req.body.comensales,
             preparacion: req.body.preparacion,
             coccion: req.body.coccion,
             descripcion: req.body.descripcion,
-            imagen: req.file.filename,
-            ingrediente: req.body.ingrediente,
-            cantidad: req.body.cantidad,
-            unidad: req.body.unidad
-        }
-   /*  }
-    else {
-        nuevaReceta = {
-            titulo: req.body.titulo,
-            comensales: req.body.comensales,
-            preparacion: req.body.preparacion,
-            coccion: req.body.coccion,
-            descripcion: req.body.descripcion,
-            ingrediente: req.body.ingrediente,
-            cantidad: req.body.cantidad,
-            unidad: req.body.unidad
-        }
-    }  */
-    Receta.findByIdAndUpdate(req.params['id'],{
-    $set: {
-        titulo: nuevaReceta.titulo,
-        comensales: nuevaReceta.comensales,
-        preparacion: nuevaReceta.preparacion,
-        coccion: nuevaReceta.coccion,
-        descripcion: nuevaReceta.descripcion,
-        imagen: nuevaReceta.imagen,
-        elementos: {
-            ingrediente: nuevaReceta.ingrediente,
-            cantidad: req.body.cantidad,
-            unidad: req.body.unidad
-        }
-
-    }}, { new: true }
-        /* {
-            $cond: {
-                if: req.body.imagen,
-                $set: {
-                    titulo: req.body.titulo,
-                    comensales: req.body.comensales,
-                    preparacion: req.body.preparacion,
-                    coccion: req.body.coccion,
-                    descripcion: req.body.descripcion,
-                    imagen: req.body.imagen
-                }, $set: {
-                    titulo: req.body.titulo,
-                    comensales: req.body.comensales,
-                    preparacion: req.body.preparacion,
-                    coccion: req.body.coccion,
-                    descripcion: req.body.descripcion
-                }
+            elementos: [{
+                ingrediente: req.body.ingrediente1,
+                cantidad: req.body.cantidad1,
+                unidad: req.body.unidad1
+            },
+            {
+                ingrediente: req.body.ingrediente2,
+                cantidad: req.body.cantidad2,
+                unidad: req.body.unidad2
+            },
+            {
+                ingrediente: req.body.ingrediente3,
+                cantidad: req.body.cantidad3,
+                unidad: req.body.unidad3
+            },
+            {
+                ingrediente: req.body.ingrediente4,
+                cantidad: req.body.cantidad4,
+                unidad: req.body.unidad4
             }
+         ]
 
-        }, { new: true } */
+        }
+    }, { new: true }
 
     ).then(resultado => {
         if (resultado)

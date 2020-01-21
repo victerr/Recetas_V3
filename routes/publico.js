@@ -15,7 +15,7 @@ router.post('/buscar', (req, res) => {
     Receta.find().then(resultado => {
         if (resultado) {
             let rectetasFiltradas = resultado.filter(receta =>
-                receta.titulo.toLowerCase().includes(busqueda) && busqueda.length>0);
+                receta.titulo.toLowerCase().includes(busqueda.toLowerCase()) && busqueda.length>0);
 
             if (rectetasFiltradas.length > 0) {
                 res.render('publico_index',

@@ -4,104 +4,77 @@
 
     <br><br><br><br>
     {% if receta %}
-         <form action="/recetas/{{ receta.id }}" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="_method" value="put"/>    
-    {% else %}
-    <form action="/recetas" method="POST" enctype="multipart/form-data">
-    {% endif %}
-        <div class="card mb-10">
-            <div class="card-header text-white bg-info">
-                <h4><input type="text" name="titulo" placeholder="Nombre de la receta" {% if receta %} value= {{ receta.titulo }} {% endif %}></h4>
-            </div>
-            <div class="row no-gutters">
-                <div class="col-md-4">
-                        <input type="file" class="form-control" name="imagen" placeholder="Imagen de la receta." formenctype="multipart/form-data"/>
-                     <div class="card-footer text-muted">
-                        <h6 class="card-title font-italic">
-                            {% if receta.comensales == 1 %}
-                        Para <input type="text" name="comensales" placeholder="Número de comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensal</h6>
-                        {% else %}
-                        Para <input type="text" name="comensales" placeholder="Número de comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensales</h6>
-                    {% endif %}
+        <form action="/recetas/{{ receta.id }}" method="post">
+            <input type="hidden" name="_method" value="put"/>
+        {% else %}
+            <form action="/recetas" method="POST" enctype="multipart/form-data">
+            {% endif %}
+            <div class="card mb-10">
+                <div class="card-header text-white bg-info">
+                    <h4><input type="text" name="titulo" placeholder="Nombre de la receta" {% if receta %} value= {{ receta.titulo }} {% endif %}></h4>
                 </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <p class="card-text">
-                        <h5>Descripción:</h5>
-                        <textarea style="min-width: 100%" name="descripcion" placeholder="Descripción de la receta">{% if receta %} {{ receta.descripcion }} {% endif %}</textarea>
-                    </p>
-                    <p class="card-text">
-                        <h6>Preparación: <input type="text" name="preparacion" placeholder="Tiempo de preparación" {% if receta %} value= {{ receta.preparacion }} {% endif %}> min. 
-                        Cocción: <input type="text" name="coccion" placeholder="Tiempo de cocción" {% if receta %} value= {{ receta.coccion }} {% endif %}> min.</h6>
-                    </p>
-
-                    <div class="card-header text-white bg-info">Ingredientes</div>
-                    <ul class="list-group list-group-flush" id="elementos">
-
+                <div class="row no-gutters">
+                    <div class="col-md-4">
                         {% if receta %}
-                            {% for elemento in receta.elementos %}
-
-                                <li class="list-group-item" name="elementos">
-                                    <strong><input type="text" name="ingrediente" {% if receta %} value= {{ elemento.ingrediente }} {% endif %}>:</strong>
-                                    <input type="text" name="cantidad" {% if receta %} value= {{ elemento.cantidad }} {% endif %}>
-                                    <input type="text" name="unidad" {% if receta %} value= {{ elemento.unidad }} {% endif %}>
-                                </li>
-                            {% endfor %}
+                            <img src="/public/uploads/{{ receta.imagen }}" class="card-img" alt="Imagen">
                         {% else %}
-                            <li class="list-group-item" name="elementos">
-                                <strong><input type="text" name="ingrediente" placeholder="Ingrediente">:</strong>
-                                <input type="text" name="cantidad" placeholder="Cantidad">
-                                <input type="text" name="unidad" placeholder="Unidad">
-                            </li>
-                        </ul>
+                            <input type="file" class="form-control" name="imagen" placeholder="Imagen de la receta." formenctype="multipart/form-data"/>
                         {% endif %}
-
-                    <button type="button" class="btn btn-primary col-12" id="addElemento">Añadir ingrediente</button>
+                        <div class="card-footer text-muted">
+                            <h6 class="card-title font-italic">
+                                {% if receta.comensales == 1 %}
+                        Para <input type="text" name="comensales" placeholder="Número de comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensal</h6>
+                            {% else %}
+                        Para <input type="text" name="comensales" placeholder="Número de comensales" {% if receta %} value= {{ receta.comensales }} {% endif %}> comensales</h6>
+                        {% endif %}
+                    </div>
                 </div>
-                {% if receta %}
-                        <button type="submit" class="btn btn-primary col-12">Modificar receta</button>
-                {% else %}
-                    <input type="submit" class="btn btn-primary col-12" value="Guardar receta">
-                {% endif %}
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <h5>Descripción:</h5>
+                            <textarea style="min-width: 100%" name="descripcion" placeholder="Descripción de la receta">
+                                {% if receta %}
+                                    {{ receta.descripcion }}
+                                {% endif %}
+                            </textarea>
+                        </p>
+                        <p class="card-text">
+                            <h6>Preparación: <input type="text" name="preparacion" placeholder="Tiempo de preparación" {% if receta %} value= {{ receta.preparacion }} {% endif %}> min. 
+                        Cocción: <input type="text" name="coccion" placeholder="Tiempo de cocción" {% if receta %} value= {{ receta.coccion }} {% endif %}> min.</h6>
+                        </p>
+
+                        <div class="card-header text-white bg-info">Ingredientes</div>
+                        <ul class="list-group list-group-flush" id="elementos">
+
+                            <li class="list-group-item" name="elementos">
+                                <strong><input type="text" name="ingrediente1" {% if receta %} value= {{ receta.elementos[0].ingrediente }} {% endif %}>:</strong>
+                                <input type="text" name="cantidad1" {% if receta %} value= {{ receta.elementos[0].cantidad }} {% endif %}>
+                                <input type="text" name="unidad1" {% if receta %} value= {{ receta.elementos[0].unidad }} {% endif %}>
+                            </li>
+                            <li class="list-group-item" name="elementos">
+                                <strong><input type="text" name="ingrediente2" {% if receta %} value= {{ receta.elementos[1].ingrediente }} {% endif %}>:</strong>
+                                <input type="text" name="cantidad2" {% if receta %} value= {{ receta.elementos[1].cantidad }} {% endif %}>
+                                <input type="text" name="unidad2" {% if receta %} value= {{ receta.elementos[1].unidad }} {% endif %}>
+                            </li>
+                            <li class="list-group-item" name="elementos">
+                                <strong><input type="text" name="ingrediente3" {% if receta %} value= {{ receta.elementos[2].ingrediente }} {% endif %}>:</strong>
+                                <input type="text" name="cantidad3" {% if receta %} value= {{ receta.elementos[2].cantidad }} {% endif %}>
+                                <input type="text" name="unidad3" {% if receta %} value= {{ receta.elementos[2].unidad }} {% endif %}>
+                            </li>
+                            <li class="list-group-item" name="elementos">
+                                <strong><input type="text" name="ingrediente4" {% if receta %} value= {{ receta.elementos[3].ingrediente }} {% endif %}>:</strong>
+                                <input type="text" name="cantidad4" {% if receta %} value= {{ receta.elementos[3].cantidad }} {% endif %}>
+                                <input type="text" name="unidad4" {% if receta %} value= {{ receta.elementos[3].unidad }} {% endif %}>
+                            </li>
+                        </div>
+                        {% if receta %}
+                            <button type="submit" class="btn btn-primary col-12">Modificar receta</button>
+                        {% else %}
+                            <input type="submit" class="btn btn-primary col-12" value="Guardar receta">
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-</form>
-<script>
-    var boton = document.getElementById('addElemento');
-    var elementos = document.getElementById('elementos');
-
-    boton.addEventListener('click', () => {
-        var li = document.createElement('li');
-        li.setAttribute('class', 'list-group-item');
-        li.setAttribute('name', 'elementos');
-
-        var strong = document.createElement('strong');
-
-        var input1 = document.createElement('input');
-        input1.setAttribute('type', 'text');
-        input1.setAttribute('name', 'ingrediente');
-        input1.setAttribute('placeholder', 'Ingrediente');
-
-        var input2 = document.createElement('input');
-        input2.setAttribute('type', 'text');
-        input2.setAttribute('name', 'cantidad');
-        input2.setAttribute('placeholder', 'Cantidad');
-
-        var input3 = document.createElement('input');
-        input3.setAttribute('type', 'text');
-        input3.setAttribute('name', 'unidad');
-        input3.setAttribute('placeholder', 'Unidad');
-
-        strong.appendChild(input1);
-        strong.innerHTML += ': ';
-
-        li.appendChild(strong);
-        li.appendChild(input2);
-        li.appendChild(input3);
-
-        elementos.appendChild(li);
-    });
-</script>
-{% endblock %}
+        </form>
+    {% endblock %}
