@@ -15,11 +15,6 @@
                 <td class="par">{{ receta.titulo }}</td>
                 <td>
                     <a class="btn btn-success" href="/receta/{{ receta.id }}">Ver ficha</a>
-                    <form style="display:inline" action="/receta/{{ receta.id }}" method="post">
-                        <input type="hidden" name="_method" value="delete" />
-                        <button type="submit" class="btn btn-danger">Borrar</button>
-                    </form>
-                    <a class="btn btn-primary" href="/receta/editar/{{ receta.id }}">Editar</a>
                 </td>
             </tr>
         {% else %}
