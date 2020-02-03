@@ -1,4 +1,5 @@
 //Servicios para la gestión de recetas.
+
 const express = require('express');
 const multer = require('multer');
 let Receta = require(__dirname + '/../models/receta.js');
@@ -34,9 +35,7 @@ router.get('/', autenticacion, (req, res) => {
 
 
 router.get('/nueva', autenticacion, (req, res) => {
-    res.render('admin_recetas_form')/* .catch(error => {
-        res.render('admin_error'); 
-    });*/
+    res.render('admin_recetas_form');
 });
 
 
@@ -102,17 +101,14 @@ router.post('/', upload.single('imagen'), (req, res) => {
     nuevaReceta.save().then(resultado => {
         if (resultado)
             res.redirect(req.baseUrl);
-        /* else
-            res.status(500).send({ ok: false, error: "Error insertando receta" }); */
+        else
+            res.render('admin_error', {error: 'Error insertando la receta'});
     }).catch(error => {
         res.render('admin_error');
     });
 
 });
 
-/**
- * Falta multer para las imágenes
- */
 router.put('/:id', upload.single('imagen'), (req, res) => {
 
     Receta.findByIdAndUpdate(req.params['id'], {
@@ -150,8 +146,8 @@ router.put('/:id', upload.single('imagen'), (req, res) => {
     ).then(resultado => {
         if (resultado)
             res.redirect(req.baseUrl);
-        /* else
-            res.status(500).send({ ok: false, error: "No se ha encontrado la receta." }); */
+         else
+            res.status(500).send({ ok: false, error: "No se ha encontrado la receta." }); 
     }).catch(error => {
         res.render('admin_error');
     });
@@ -163,8 +159,8 @@ router.delete('/:id', (req, res) => {
         .then(resultado => {
             if (resultado)
                 res.redirect(req.baseUrl);
-            /* else
-                res.status(500).send({ ok: false, error: "No se ha encontrado la receta." }); */
+            else
+                res.render('admin_error', {error: 'Error liminando la receta'});
         }).catch(error => {
             res.render('admin_error');
         });

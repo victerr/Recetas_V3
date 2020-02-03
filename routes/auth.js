@@ -1,4 +1,4 @@
-//Servicios para la autenticación
+//Servicios para gestionar la autenticación de los usuarios en la web.
 const express = require('express');
 let Usuario = require(__dirname + '/../models/usuario.js');
 let router = express.Router();

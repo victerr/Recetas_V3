@@ -1,3 +1,5 @@
+//Servicios para gestionar las acciones de la parte pública de la web.
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 
@@ -5,9 +7,7 @@ let Receta = require(__dirname + '/../models/receta.js');
 let router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('publico_index');/* .catch(error => {
-        res.render('publico_error');
-    }); */
+    res.render('publico_index');
 });
 
 router.post('/buscar', (req, res) => {

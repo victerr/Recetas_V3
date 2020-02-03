@@ -1,3 +1,5 @@
+//Código para añadir manualmente usuarios a la base de datos.
+
 const mongoose = require('mongoose');
 const Usuario = require(__dirname + '/../models/usuario');
 

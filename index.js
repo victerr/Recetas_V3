@@ -1,4 +1,4 @@
-//Archivo principal. Se inicia la conexión y se declaran y vinculan los enrutadores.
+//Archivo principal. Se inicia la conexión y se declaran y vinculan los enrutadores, base de datos, motor de plantillas, etc.
 
 // Librerías externas
 const express = require('express');

@@ -1,4 +1,4 @@
-//Declararión y exportación del esquema de mongoose de Ingrediente.
+//Declararión y exportación del esquema de mongoose de Usuario.
 const mongoose = require('mongoose');
 
 let usuarioSchema = new mongoose.Schema({
