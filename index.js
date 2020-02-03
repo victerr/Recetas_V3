@@ -16,7 +16,7 @@ const publico = require(__dirname + '/routes/publico');
 const auth = require(__dirname + '/routes/auth');
 
 // Conexión con la BD
-mongoose.connect('mongodb://localhost:27017/recetasV3',
+mongoose.connect('mongodb://localhost:27020/recetasV3',
     { useNewUrlParser: true });
 let app = express();
 
