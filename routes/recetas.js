@@ -18,7 +18,7 @@ let storage = multer.diskStorage({
 
 let upload = multer({ storage: storage });
 
-router.get('/recetas', autenticacion, (req, res) => {
+router.get('/', autenticacion, (req, res) => {
     Receta.find().then(resultado => {
         if (resultado.length !== 0) {
             res.render('admin_recetas',
