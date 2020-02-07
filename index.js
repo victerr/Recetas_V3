@@ -55,7 +55,7 @@ app.use(methodOverride(function (req, res) {
     }
 }));
 //app.use('/ingredientes', ingredientes);
-app.use('/recetas', recetas);
+app.use('/admin', recetas);
 app.use('/', publico);
 app.use('/auth', auth);
 
