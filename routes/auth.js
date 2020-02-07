@@ -19,7 +19,7 @@ router.post('/login', (req, res) => {
         
     if (existeUsuario.length > 0) {
         req.session.usuario = existeUsuario[0].login;
-        res.redirect('/recetas');
+        res.redirect('/admin/recetas');
     } else {
         res.render('auth_login',
             { error: "Usuario incorrecto" });

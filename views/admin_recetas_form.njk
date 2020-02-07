@@ -4,10 +4,10 @@
 
     <br><br><br><br>
     {% if receta %}
-        <form action="/recetas/{{ receta.id }}" method="post">
+        <form action="/admin/recetas/{{ receta.id }}" method="post">
             <input type="hidden" name="_method" value="put"/>
         {% else %}
-            <form action="/recetas" method="POST" enctype="multipart/form-data">
+            <form action="/admin/recetas" method="POST" enctype="multipart/form-data">
             {% endif %}
             <div class="card mb-10">
                 <div class="card-header text-white bg-info">
