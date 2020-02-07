@@ -39,7 +39,7 @@ router.get('/recetas/nueva', autenticacion, (req, res) => {
 });
 
 
-router.get('/editar/:id', autenticacion, (req, res) => {
+router.get('/recetas/editar/:id', autenticacion, (req, res) => {
     Receta.findById(req.params['id']).then(resultado => {
         if (resultado) {
             res.render('admin_recetas_form', { receta: resultado });
