@@ -18,7 +18,7 @@ let storage = multer.diskStorage({
 
 let upload = multer({ storage: storage });
 
-router.get('/', autenticacion, (req, res) => {
+router.get('/recetas', autenticacion, (req, res) => {
     Receta.find().then(resultado => {
         if (resultado.length !== 0) {
             res.render('admin_recetas',
@@ -34,12 +34,12 @@ router.get('/', autenticacion, (req, res) => {
 });
 
 
-router.get('/nueva', autenticacion, (req, res) => {
+router.get('/recetas/nueva', autenticacion, (req, res) => {
     res.render('admin_recetas_form');
 });
 
 
-router.get('/editar/:id', autenticacion, (req, res) => {
+router.get('/recetas/editar/:id', autenticacion, (req, res) => {
     Receta.findById(req.params['id']).then(resultado => {
         if (resultado) {
             res.render('admin_recetas_form', { receta: resultado });
@@ -55,7 +55,7 @@ router.get('/editar/:id', autenticacion, (req, res) => {
 /**
  * Falta multer para las imágenes
  */
-router.post('/', upload.single('imagen'), (req, res) => {
+router.post('/recetas', upload.single('imagen'), (req, res) => {
     let elemento1, elemento2, elemento3, elemento4 = null;
 
     if(req.body.ingrediente1 && req.body.cantidad1 && req.body.unidad1){
@@ -109,7 +109,7 @@ router.post('/', upload.single('imagen'), (req, res) => {
 
 });
 
-router.put('/:id', upload.single('imagen'), (req, res) => {
+router.put('/recetas/:id', upload.single('imagen'), (req, res) => {
 
     Receta.findByIdAndUpdate(req.params['id'], {
         $set: {
@@ -154,7 +154,7 @@ router.put('/:id', upload.single('imagen'), (req, res) => {
 });
 
 
-router.delete('/:id', (req, res) => {
+router.delete('/recetas/:id', (req, res) => {
     Receta.findByIdAndRemove(req.params['id'])
         .then(resultado => {
             if (resultado)
